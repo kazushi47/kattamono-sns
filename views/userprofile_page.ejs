@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%# heads %>
+    <%- include('./heads', {head_title: '買ったものSNS - プロフィール'}) %>
+</head>
+<body class="ht-body">
+    <%# header %>
+    <%- include('./header') %>
+
+    <div class="ht-main">
+        <div class="ht-tm-wrapper">
+            <div class="container ht-tm-container">
+                <% if (isMine) { %>
+                    <%# 自分自身のプロフィール画面 %>
+                    <h4>マイプロフィール</h4>
+                    <p>プロフィールを変更するには、変更箇所を修正し「変更を保存」してください。</p>
+                    <p>
+                        ※ IDを変更することはできません。<br>
+                        ※ メールアドレスやパスワードを変更した場合、一度ログアウトされるので再度変更後のプロフィールでログインしてください。<br>
+                        ※ パスワードを変更する際には確認のため同じパスワードを2度入力してください。
+                    </p>
+                    <div class="row" style="width: 50%;">
+                        <form action="/edit-profile" method="post">
+
+                            <label for="name">ニックネーム</label>
+                            <input type="text" class="form-control" name="name" placeholder="Name" value="<%= name %>">
+                            <br>
+                            <label for="id">ID</label>
+                            <input type="text" class="form-control" name="id" placeholder="Id" value="<%= id %>" readonly>
+                            <br>
+                            <label for="email">メールアドレス</label>
+                            <input type="email" class="form-control" name="email" placeholder="Email address" value="<%= login_email %>">
+                            <br>
+                            <label for="newpassword">新しいパスワードを設定</label>
+                            <input type="password" class="form-control" name="newpassword" placeholder="New password">
+                            <br>
+                            <label for="newpassword_check">新しいパスワードを設定(確認)</label>
+                            <input type="password" class="form-control" name="newpassword_check" placeholder="New password">
+                            <br>
+                            <input type="submit" class="btn btn-primary" value="変更を保存">
+                        </form>
+                    </div>
+                <% } else { %>
+                    <%# 自分以外のプロフィール画面 %>
+                    <div class="row">
+                        <h4>プロフィール</h4>
+                    </div>
+                    <% if (name != null) { %>
+                        <div class="row">
+                            <h5>ニックネーム: <%= name %></h5>
+                        </div>
+                    <% } %>
+                    <div class="row">
+                        <h5>ID: <%= id %></h5>
+                    </div>
+                    <div class="row">
+                        <a href="/followlist/<%= id %>/follows"><p>フォロー・フォロワーリスト</p></a>
+                    </div>
+                    <div class="row">
+                        <a href="/favorities/<%= id %>"><p>お気に入りの投稿</p></a>
+                    </div>
+                    <% if (isFollowing != null) { %>
+                        <div class="row">
+                            <%- include('./followbutton', {followTargetUserId: id, isFollowing: isFollowing}) %>
+                        </div>
+                    <% } %>
+                <% } %>
+
+                <br>
+                <div class="row">
+                    <div class="col-xl-9">
+                        <div id="ht-tm-maincolumn" class="ht-tm-maincolumn">
+                            <div class="ht-tm-conponentsblock">
+                                <div class="ht-tm-cat">
+                                    <h4 class="ht-tm-cat-title">投稿</h4>
+                                    <div class="row">
+                                        <% posts.forEach(post => { %>
+                                            <%- include('./postcard', {post: post}) %>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if (isMine) { %>
+        <%- include('./postbutton') %>
+    <% } %>
+</body>
+</html>

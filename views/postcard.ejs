@@ -1,0 +1,32 @@
+<div class="ht-tm-codeblock" style="width: 100%;">
+    <div class="ht-tm-element card">
+        <% if ("picture_url" in post) { %>
+            <a href="<%= post.picture_url %>" target="_blank" rel="noopener">
+                <img src="<%= post.picture_url %>" alt="Card image cap" class="card-img-top">
+            </a>
+        <% } %>
+        <div class="card-body">
+            <a href="/profile/<%= post.user_id %>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg>
+                <%= post.user_name %>(ID: <%= post.user_id %>)
+            </a>
+            <h4 class="card-title"><%= post.title %></h4>
+            <% if ("description" in post) { %>
+                <p class="card-text"><%= post.description %></p>
+            <% } %>
+            <br>
+            <% if (post.isMine) { %>
+                <button onclick="$.post('/removepost', {target_postid: '<%= post.id %>'}).done((data) => {setTimeout(() => {location.reload()}, 2000)})" class="btn btn-danger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                    </svg>
+                </button>
+            <% } else { %>
+                <%- include('./favoritebutton', {target_postid: post.id, isFavoriting: post.isFavoriting, favorities: post.favorities}) %>
+            <% } %>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<%
+    const FOLLOW_STR = "フォローする"
+    const UNFOLLOW_STR = "フォロー解除する"
+
+    var initCssClasses = ""
+    var initValue = ""
+    if (isFollowing) {
+        initCssClasses = "btn btn-outline-primary"
+        initValue = UNFOLLOW_STR
+    } else {
+        initCssClasses = "btn btn-primary"
+        initValue = FOLLOW_STR
+    }
+%>
+
+<input type="button" class="<%= initCssClasses %>" value="<%= initValue %>" onclick="
+    var userId = '<%= followTargetUserId %>'
+
+    if ($(this).hasClass('btn-primary')) {
+        $.post('/follow', {targetUserId: userId})
+        $(this).removeClass('btn-primary');
+        $(this).addClass('btn-outline-primary');
+        $(this).val('<%= UNFOLLOW_STR %>')
+    } else {
+        $.post('/unfollow', {targetUserId: userId})
+        $(this).removeClass('btn-outline-primary');
+        $(this).addClass('btn-primary');
+        $(this).val('<%= FOLLOW_STR %>')
+    }
+">

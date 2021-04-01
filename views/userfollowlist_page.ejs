@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%# heads %>
+    <%- include('./heads', {head_title: '買ったものSNS - フォロー・フォロワーリスト'}) %>
+</head>
+<body class="ht-body">
+    <%# header %>
+    <%- include('./header') %>
+
+    <h4><%= name %>(ID: <%= id %>)のフォロー・フォロワーリスト</h4>
+
+    <ul class="nav nav-tabs ht-tm-element">
+        <li class="nav-item">
+            <% if (type === "follows") { %>
+                <a href="/followlist/<%= id %>/follows" class="nav-link active">フォロー</a>
+            <% } else { %>
+                <a href="/followlist/<%= id %>/follows" class="nav-link">フォロー</a>
+            <% } %>
+        </li>
+        <li class="nav-item">
+            <% if (type === "followers") { %>
+                <a href="/followlist/<%= id %>/followers" class="nav-link active">フォロワー</a>
+            <% } else { %>
+                <a href="/followlist/<%= id %>/followers" class="nav-link">フォロワー</a>
+            <% } %>
+        </li>
+    </ul>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">ニックネーム</th>
+                <th scope="col">ID</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% followlist.forEach((user) => { %>
+                <tr>
+                    <th scope="row"></th>
+                    <td>
+                        <a href="/profile/<%= user.id %>"><%= user.name %></a>
+                    </td>
+                    <td>
+                        <a href="/profile/<%= user.id %>"><%= user.id %></a>
+                    </td>
+                    <td>
+                        <% if (user.isFollowing != null) { %>
+                            <%- include('./followbutton', {followTargetUserId: user.id, isFollowing: user.isFollowing})%>
+                        <% } %>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>

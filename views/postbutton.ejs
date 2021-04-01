@@ -1,0 +1,59 @@
+<!-- post button -->
+<button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#post_input" style="position: fixed; z-index: 1030; bottom: 1.5rem; right: 1.5rem;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+    </svg>
+</button>
+
+<!-- post_input -->
+<div id="post_input" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="basicModal">Title</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/addpost" method="post" id="postForm01" enctype="multipart/form-data">
+                    <label for="title">title</label>
+                    <input type="text" name="title" class="form-control" placeholder="post title" required>
+                    <br>
+                    <label for="description">description</label>
+                    <textarea name="description" rows="5" class="form-control" placeholder="description..."></textarea>
+                    <br>
+                    <label for="picture">picture</label>
+                    <br>
+                    <label>
+                        <span class="btn btn-primary">
+                            Choose File
+                            <input type="file" name="picture" accept="image/png, image/jpeg" style="display:none" id="inputPicture01">
+                        </span>
+                    </label>
+                    <img src="" alt="" id="previewPicture01" class="img-thumbnail">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+                <button class="btn btn-danger" type="submit" form="postForm01">post</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(() => {
+        /* 最初はサムネイルを隠す */
+        $('#previewPicture01').hide();
+
+        $('#inputPicture01').on('change', () => {
+            /* サムネイルを表示する */
+            const file = $('#inputPicture01').prop('files')[0];
+            const reader = new FileReader();
+            reader.onload = () => {
+                $('#previewPicture01').attr('src', reader.result);
+                $('#previewPicture01').show();
+            }
+            reader.readAsDataURL(file);
+        });
+    })
+</script>

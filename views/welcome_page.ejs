@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%# heads %>
+    <%- include('./heads', {head_title: '買ったものSNS - ホーム'}) %>
+</head>
+<body class="ht-body">
+    <%# header %>
+    <%- include('./header') %>
+
+    <div class="ht-main">
+        <% if (login_email == null) { %>
+            <!-- jumbotron -->
+            <div id="ht-tm-jumbotron">
+                <div class="jumbotron bg-danger mb-0 radius-0 ht-tm-jumbotron">
+                  <div class="container">
+                    <div class="ht-tm-header">
+                        <div class="row">
+                            <div class="col-xl-8">
+                                <h1 class="display-2 text-chicle text-light">買ったものSNS</h1>
+                                <span class="lead text-light">買ったものを共有しよう！</span>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">登録してはじめよう！</h4>
+                                        <form action="/join" method="post">
+                                            <label for="join_useremail">メールアドレス</label>
+                                            <input type="email" name="email" class="form-control" placeholder="設定するメールアドレスを入力" required>
+                                            <br>
+                                            <label for="join_password">パスワード</label>
+                                            <input type="password" name="password" class="form-control" placeholder="設定するパスワードを入力" required>
+                                            <br>
+                                            <label for="join_password_check">パスワード(確認)</label>
+                                            <input type="password" name="password_checker" class="form-control" placeholder="確認のためもう一度入力" required>
+                                            <br>
+                                            <input type="submit" class="btn btn-primary" value="アカウント登録">
+                                        </form>
+                                        <br>
+                                        <a href="/login">アカウントをお持ちの方はこちらからログイン</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="ht-tm-wrapper">
+            <div class="container ht-tm-container">
+                <div class="row">
+                    <div class="col-xl-9">
+                        <div id="ht-tm-maincolumn" class="ht-tm-maincolumn">
+                            <div class="ht-tm-conponentsblock">
+                                <div class="ht-tm-cat">
+                                    <h4 class="ht-tm-cat-title">最近の投稿をチェックしよう</h4>
+                                    <div class="row">
+                                        <% posts.forEach(post => { %>
+                                            <%- include('./postcard', {post: post}) %>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if (login_email != null) { %>
+        <%- include('./postbutton') %>
+    <% } %>
+</body>
+</html>
